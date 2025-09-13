@@ -48,7 +48,6 @@ Here are the main endpoints available:
 - `POST /auth/login` — Authenticate and obtain a JWT
 - `GET /todos` — Get all todos for authenticated user
 - `POST /todos` — Create a new todo
-- `GET /todos/:id` — Get a single todo by ID
 - `PUT /todos/:id` — Update a todo
 - `DELETE /todos/:id` — Delete a todo
   
