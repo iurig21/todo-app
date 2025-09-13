@@ -1,0 +1,55 @@
+### Register a new user - POST /auth/register
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "teste",
+    "password": "1234"
+}
+
+### Login a user - POST /auth/login
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "teste@gmail.com",
+    "password": "1234"
+}
+
+### Fetch a user's todos GET /todos (protected)
+
+GET http://localhost:3000/todos
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3NDM3MjEzLCJleHAiOjE3NTc1MjM2MTN9.t7NzQCgvt4_ijUm2KmH39JektzRtkVgdMdLM_8QdhWo
+
+### Create a new todo POST /todos (protected)
+
+POST http://localhost:3000/todos
+Content-Type: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzU3NTIzMDMwLCJleHAiOjE3NTc2MDk0MzB9.x6QABW-Dfgk_FM2Mh_6eZypqQwqvHl9lG6MeNxotb5Q
+
+{
+    "task": "Treinar",
+    "description": "Peito"
+}
+
+### Update a todo PUT /todos/:id (protected)
+
+PUT http://localhost:3000/todos/14
+Content-Type: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzU3NTMyOTg0LCJleHAiOjE3NTc2MTkzODR9.g3_ItS7LpLdc1Dnt-EZTxdtwNGuilegeyNE--aIJ7w4
+
+{
+    "completed": true
+}
+
+### Delete a todo DELETE /:id (protected)
+
+DELETE http://localhost:3000/todos/2
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3NDM3MjEzLCJleHAiOjE3NTc1MjM2MTN9.t7NzQCgvt4_ijUm2KmH39JektzRtkVgdMdLM_8QdhWo
+
+
+
+
+
