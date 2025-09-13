@@ -38,34 +38,22 @@ A full-stack To-Do List application built with React (frontend) and a Node.js/Ex
     npm run dev
     ```
 4. The backend runs by default on `http://localhost:3000`.
+   
 
-#### Example API Usage
+## API Endpoints
 
-- **Register user**
-    ```
-    POST /auth/register
-    Content-Type: application/json
-    {
-        "email": "your-email",
-        "password": "your-password"
-    }
-    ```
-- **Login user**
-    ```
-    POST /auth/login
-    Content-Type: application/json
-    {
-        "email": "your-email",
-        "password": "your-password"
-    }
-    ```
-- **Fetch todos (auth required)**
-    ```
-    GET /todos
-    Authorization: Bearer <your-jwt-token>
-    ```
+Here are the main endpoints available:
 
-### Frontend Setup
+- `POST /auth/register` — Register a new user and obtain a JWT
+- `POST /auth/login` — Authenticate and obtain a JWT
+- `GET /todos` — Get all todos for authenticated user
+- `POST /todos` — Create a new todo
+- `GET /todos/:id` — Get a single todo by ID
+- `PUT /todos/:id` — Update a todo
+- `DELETE /todos/:id` — Delete a todo
+  
+
+## Frontend Setup
 
 1. Navigate to the `frontend/` directory:
     ```bash
