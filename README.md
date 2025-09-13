@@ -14,7 +14,7 @@ A full-stack To-Do List application built with React (frontend) and a Node.js/Ex
 ## Tech Stack
 
 - **Frontend:** React, TailwindCSS
-- **Backend:** Node.js, Express, Prisma
+- **Backend:** Node.js, Express.js, Prisma
 - **Database:** PostgreSQL
 
 ## Getting Started
