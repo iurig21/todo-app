@@ -45,21 +45,6 @@ function App() {
     fetchTasks();
   }, [token]);
 
-  /*
-  useEffect(() => {
-    async function Apidata() {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/todos/?_limit=10",
-        {
-          method: "GET",
-        }
-      );
-      const responseJSON = await response.json();
-      setTasks(responseJSON);
-    }
-     Apidata(); //Tarefas podem vir de uma API, se quiser
-  }, []); // Lista vazia para que a função so seja executada na 1a vez que o usuario entrar na aplicação
-  */
   async function OnAddTaskClick(title, desc) {
 
     const data = await fetch(import.meta.env.VITE_API_URL + "/todos", {
