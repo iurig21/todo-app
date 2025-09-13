@@ -7,7 +7,7 @@ A full-stack To-Do List application built with React (frontend) and a Node.js/Ex
 - **User Authentication:** Secure registration and login (JWT-based).
 - **Task Management:** Add, edit, complete, delete, and view details for your tasks.
 - **Search & Filter:** Easily search your tasks by title.
-- **Responsive UI:** Built with React and TailwindCSS for a clean  look.
+- **Responsive UI:** Built with React and TailwindCSS for a clean look.
 - **Protected Routes:** Task operations require user authentication.
 - **RESTful API:** Backend exposes endpoints for all CRUD operations.
 
@@ -91,13 +91,17 @@ todo-app/
 │   └── ...         
 ├── frontend/        # React frontend app
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── App.jsx
-│   └── README.md
+│      ├── components/
+│      ├── pages/
+│      └── App.jsx
+│ 
 └── README.md        # Project root README
 ```
 
 ## Contributing
 
 Pull requests and issues are welcome! Please open an issue to discuss any major changes.
+
+## Author
+
+- [iurig21](https://github.com/iurig21)
