@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword) {
-      res.status(401).send({ message: "Invalid password" });
+      return res.status(401).send({ message: "Invalid password" });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.log(err.message);
-    req.status(503);
+    return res.status(503).send({message: "Service unavailable"});
   }
 });
 
