@@ -45,7 +45,7 @@ function App() {
     fetchTasks();
   }, [token]);
 
-  async function OnAddTaskClick(title, desc) {
+  async function OnAddTaskClick(title, desc,categoryId) {
 
     const data = await fetch(import.meta.env.VITE_API_URL + "/todos", {
       method: "POST",
@@ -53,7 +53,7 @@ function App() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({task: title,description:desc})
+      body: JSON.stringify({task: title,description:desc,categoryId:categoryId})
     })
 
     if(!data.ok){
@@ -62,13 +62,14 @@ function App() {
 
     const {newTodo} = await data.json()
 
-    const {id,task,description} = newTodo
+    const {id,task,description,categoryId: createdCategoryId} = newTodo
 
 
     const newTask = {
       id: id,
       task: task,
       description: description,
+      categoryId: createdCategoryId,
       completed: false,
     };
 
@@ -176,11 +177,13 @@ function App() {
           </Modal>
         )}
 
-        <div className="flex justify-evenly">
-          <Title>Gerenciador de tarefas</Title>
+        <div className="flex justify-between items-center relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Title>Todo-app</Title>
+          </div>
           {isAuthenticated ? (
             <button
-              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white"
+              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white ml-auto"
               onClick={() => {
                 setTasks([])
                 Logout()
@@ -191,7 +194,7 @@ function App() {
           ) : (
             <button
               onClick={() => setShowModal(true)}
-              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white"
+              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white ml-auto"
             >
               Login/register
             </button>

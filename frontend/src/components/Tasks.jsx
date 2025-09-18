@@ -15,6 +15,7 @@ function Tasks({ tasks, OnTaskClick, OnDeleteTaskClick, OnEditTaskClick }) {
     const query = new URLSearchParams();
     query.set("title", task.task);
     query.set("description", task.description);
+    query.set("category", task.categoryId)
     navigate(`/task?${query.toString()}`);
   }
 

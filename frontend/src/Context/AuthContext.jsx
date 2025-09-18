@@ -9,6 +9,12 @@ function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
+  const [categorys, setCategorys] = useState([
+      "Work",
+      "Personal",
+      "Education",
+      "Fitness",
+    ]);
 
   async function Login(email, password) {
     try {
@@ -71,6 +77,7 @@ function AuthProvider({ children }) {
         isAuthenticated,
         setIsAuthenticated,
         Logout,
+        categorys
       }}
     >
       {children}
