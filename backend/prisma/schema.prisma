@@ -9,12 +9,14 @@ datasource db {
 }
 
 model todos {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   task        String
   description String?
   userid      Int?
-  completed   Boolean? @default(false)
-  users       users?   @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  completed   Boolean?   @default(false)
+  categoryId  Int?
+  categorys   categorys? @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "todos_categoryId_fkey")
+  users       users?     @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users {
@@ -22,4 +24,10 @@ model users {
   email    String? @unique
   password String?
   todos    todos[]
+}
+
+model categorys {
+  id    Int     @id(map: "categories_pkey") @default(autoincrement())
+  nome  String? @unique(map: "categories_nome_key") @db.VarChar(30)
+  todos todos[]
 }
