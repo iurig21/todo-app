@@ -3,6 +3,7 @@ import authRoutes from './routes/authRoutes.js'
 import todoRoutes from './routes/todoRoutes.js'
 import authMiddleware from './middleware/authMiddleware.js'
 import cors from 'cors'
+import 'dotenv/config'
 
 const app = express()
 
