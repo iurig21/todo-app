@@ -1,4 +1,4 @@
-# Todo-App
+# Full-Stack Todo App using ReactJS TailwindCSS Node.js Express.js Prisma & PostgreSQL
 
 A full-stack To-Do List application built with React (frontend) and a Node.js/Express/Prisma/PostgreSQL backend. This project allows users to register, authenticate, and manage their personal tasks in an intuitive interface.
 
@@ -14,7 +14,7 @@ A full-stack To-Do List application built with React (frontend) and a Node.js/Ex
 ## Tech Stack
 
 - **Frontend:** React, TailwindCSS
-- **Backend:** Node.js, Express, Prisma
+- **Backend:** Node.js, Express.js, Prisma
 - **Database:** PostgreSQL
 
 ## Getting Started
@@ -48,7 +48,6 @@ Here are the main endpoints available:
 - `POST /auth/login` — Authenticate and obtain a JWT
 - `GET /todos` — Get all todos for authenticated user
 - `POST /todos` — Create a new todo
-- `GET /todos/:id` — Get a single todo by ID
 - `PUT /todos/:id` — Update a todo
 - `DELETE /todos/:id` — Delete a todo
   
