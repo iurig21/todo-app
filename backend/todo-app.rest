@@ -49,7 +49,15 @@ Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzU3NTMyO
 DELETE http://localhost:3000/todos/2
 Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3NDM3MjEzLCJleHAiOjE3NTc1MjM2MTN9.t7NzQCgvt4_ijUm2KmH39JektzRtkVgdMdLM_8QdhWo
 
+### Creating a new category POST /categorys (protected)
 
+POST http://localhost:3000/todos/categorys
+Content-Type: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzU4MjE0MTExLCJleHAiOjE3NTgzMDA1MTF9.iyYiv-c2QiF-P5qUVnNUkFPEtYO8lbDqNKePZtXwgPE
+
+{
+    "category":"Fitness"
+}
 
 
 
