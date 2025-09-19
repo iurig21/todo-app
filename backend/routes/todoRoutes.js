@@ -81,4 +81,32 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.post("/categorys" , async (req,res) => {
+   try{
+      const {category}  = req.body
+
+      const alreadyExists = await prisma.categorys.findUnique({
+        where: {
+          nome: category
+        }
+      })
+
+      if(alreadyExists){
+        return res.status(404).json({message: "Category already exists"})
+      }
+
+      await prisma.categorys.create({
+        data: {
+          nome : category
+        }
+      })
+
+      res.status(201).json({message: "Category created successfully"})
+
+   }catch (err){
+      console.error("POST /categorys failed :" ,err);
+      res.status(500).json({message: "Creating a category failed"})
+   }
+})
+
 export default router;
