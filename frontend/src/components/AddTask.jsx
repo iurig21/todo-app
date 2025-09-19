@@ -3,7 +3,7 @@ import Input from "./Input";
 import { AuthContext } from "../Context/AuthContext";
 import { CirclePlus } from 'lucide-react';
 
-function AddTask({ OnAddTaskClick, openModal }) {
+function AddTask({ OnAddTaskClick, openModal,setShowCategorysModal }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [error, setError] = useState(false);
@@ -61,7 +61,12 @@ function AddTask({ OnAddTaskClick, openModal }) {
             </option>
           ))}
         </select>
-        <button className="cursor-pointer" title="Add a category"> <CirclePlus color="#FFFCFC" />  </button> 
+        <button className="cursor-pointer" title="Add a category"> <CirclePlus color="#FFFCFC" onClick={() => {
+          if(!isAuthenticated){
+            return openModal()
+          }
+          setShowCategorysModal(true);
+        }} />  </button> 
       </div>
       <button
         className="w-full bg-zinc-800 text-white p-3 rounded-md cursor-pointer font-medium"

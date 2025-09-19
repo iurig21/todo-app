@@ -77,7 +77,8 @@ function AuthProvider({ children }) {
         isAuthenticated,
         setIsAuthenticated,
         Logout,
-        categorys
+        categorys,
+        setCategorys
       }}
     >
       {children}

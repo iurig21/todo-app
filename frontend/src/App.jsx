@@ -8,6 +8,7 @@ import DeleteTask from "./components/DeleteTask";
 import Modal from "./components/Modal";
 import Authentication from "./components/Authentication";
 import { AuthContext } from "./Context/AuthContext";
+import AddCategory from "./components/AddCategory";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +17,7 @@ function App() {
   const [taskId, setTaskid] = useState();
   const [taskData, setTaskData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [showCategorysModal,setShowCategorysModal] = useState(false)
 
   const { token, isAuthenticated, Logout } = useContext(AuthContext);
 
@@ -177,6 +179,12 @@ function App() {
           </Modal>
         )}
 
+        {showCategorysModal && (
+          <Modal closeModal={() => setShowCategorysModal(false)}>
+              <AddCategory/>
+          </Modal>
+        )}
+
         <div className="flex justify-between items-center relative">
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <Title>Todo-app</Title>
@@ -200,7 +208,7 @@ function App() {
             </button>
           )}
         </div>
-        <AddTask OnAddTaskClick={OnAddTaskClick} openModal={openModal}/>
+        <AddTask OnAddTaskClick={OnAddTaskClick} openModal={openModal} setShowCategorysModal={setShowCategorysModal}/>
         {edit && (
           <EditTask
             taskData={taskData}

@@ -52,7 +52,7 @@ function Authentication({ closeModal }) {
       }
     } catch (err) {
       console.error("Authentication error:", err);
-      setError(err.message || "Authentication failed");
+      setError(err.message ?? "Authentication failed");
     } finally {
       setIsAuthenticating(false);
     }
