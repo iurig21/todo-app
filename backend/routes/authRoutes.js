@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ token });
   } catch (err) {
     console.log(err.message);
-    res.sendStatus(503);
+    res.status(503).json({message: "Service unavailable"});
   }
 });
 
@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.log(err.message);
-    return res.status(503).send({message: "Service unavailable"});
+    return res.status(503).json({message: "Service unavailable"});
   }
 });
 
