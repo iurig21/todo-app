@@ -50,6 +50,7 @@ Here are the main endpoints available:
 - `POST /todos` — Create a new todo
 - `PUT /todos/:id` — Update a todo
 - `DELETE /todos/:id` — Delete a todo
+- `POST /todos/categorys` - Create a new category
   
 
 ## Frontend Setup
