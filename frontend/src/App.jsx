@@ -9,6 +9,7 @@ import Modal from "./components/Modal";
 import Authentication from "./components/Authentication";
 import { AuthContext } from "./Context/AuthContext";
 import AddCategory from "./components/AddCategory";
+import { LogOut } from 'lucide-react';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -19,7 +20,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showCategorysModal,setShowCategorysModal] = useState(false)
 
-  const { token, isAuthenticated, Logout } = useContext(AuthContext);
+  const { token, isAuthenticated, Logout} = useContext(AuthContext);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -46,7 +47,6 @@ function App() {
     }
     fetchTasks();
   }, [token]);
-
   async function OnAddTaskClick(title, desc,categoryId) {
 
     const data = await fetch(import.meta.env.VITE_API_URL + "/todos", {
@@ -191,18 +191,21 @@ function App() {
           </div>
           {isAuthenticated ? (
             <button
-              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white ml-auto"
+              className="cursor-pointer bg-red-700 rounded-md p-3 text-white ml-auto border border-red-950"
               onClick={() => {
                 setTasks([])
                 Logout()
               }}
             >
-              Logout
+              <div className="flex gap-3">
+                Logout
+                <LogOut/>
+              </div>
             </button>
           ) : (
             <button
               onClick={() => setShowModal(true)}
-              className="cursor-pointer bg-zinc-700 rounded-md p-3 text-white ml-auto"
+              className="cursor-pointer bg-green-700 rounded-md p-3 text-white ml-auto border border-green-950"
             >
               Login/register
             </button>

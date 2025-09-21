@@ -18,7 +18,7 @@ function AddCategory(){
             setSuccess(false)
 
             const category = data.category
-            const response = await fetch("http://localhost:3000/todos/categorys",{
+            const response = await fetch(import.meta.env.VITE_API_URL + "/todos/categorys",{
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -31,8 +31,12 @@ function AddCategory(){
                 const ErrorData = await response.json();
                 return setError(ErrorData.message ?? "Failed to add category")
             }
-            
-            setCategorys([...categorys,category])
+
+            const newCategory = await response.json()
+
+            console.log(newCategory)
+
+            setCategorys([...categorys,newCategory])
             setSuccess(true)
         }catch(err){
             console.error("Error adding category", err)

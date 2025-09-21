@@ -54,10 +54,10 @@ function AddTask({ OnAddTaskClick, openModal,setShowCategorysModal }) {
 
       <div className="flex gap-3">
         <select onChange={(event) => setChosenCategory(event.target.value)} value={chosenCategory} className="text-white bg-zinc-600 rounded-md p-2">
-            <option value={""}> Select a categorie: </option>
-          {categorys.map((categorie, idx) => (
-            <option value={idx}  key={idx}>
-              {categorie}
+            <option value={""}> Select a category: </option>
+          {categorys.map((category,idx) => (
+            <option value={category.id}  key={idx}>
+              {category.nome}
             </option>
           ))}
         </select>
@@ -66,7 +66,8 @@ function AddTask({ OnAddTaskClick, openModal,setShowCategorysModal }) {
             return openModal()
           }
           setShowCategorysModal(true);
-        }} />  </button> 
+        }} /> 
+         </button> 
       </div>
       <button
         className="w-full bg-zinc-800 text-white p-3 rounded-md cursor-pointer font-medium"

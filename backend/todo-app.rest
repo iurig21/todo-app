@@ -27,11 +27,12 @@ Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzU3NDM3M
 
 POST http://localhost:3000/todos
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzU3NTIzMDMwLCJleHAiOjE3NTc2MDk0MzB9.x6QABW-Dfgk_FM2Mh_6eZypqQwqvHl9lG6MeNxotb5Q
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzU4Mzc1MDYwLCJleHAiOjE3NTg0NjE0NjB9.9oYYCOc1LRDHTNhU9U44xbfD4Ox09msit8bdyDNWQ2U
 
 {
-    "task": "Treinar",
-    "description": "Peito"
+    "task": "",
+    "description": "Peito",
+    "categoryId": 3
 }
 
 ### Update a todo PUT /todos/:id (protected)

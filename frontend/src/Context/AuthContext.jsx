@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
 const AuthContext = createContext();
 export { AuthContext };
@@ -9,20 +9,46 @@ function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
-  const [categorys, setCategorys] = useState([
-      "Work",
-      "Personal",
-      "Education",
-      "Fitness",
-    ]);
+  const [categorys, setCategorys] = useState([]);
+
+  useEffect(() => {
+    async function FetchCategorys() {
+      try {
+7
+        const response = await fetch(import.meta.env.VITE_API_URL + "/todos/categorys",{
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          }
+        })
+
+        if(!response.ok){
+            const ErrorData = await response.json();
+            console.error(ErrorData.message)
+        }
+
+        const responseJSON = await response.json();
+
+        setCategorys(responseJSON)
+
+      } catch (err) {
+        console.error("Error fetching categorys", err);
+        setCategorys([]);
+      }
+    }
+    FetchCategorys()
+  }, [token]);
 
   async function Login(email, password) {
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, password: password }),
-      });
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -39,11 +65,14 @@ function AuthProvider({ children }) {
 
   async function Register(email, password) {
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, password: password }),
-      });
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: password }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -78,7 +107,7 @@ function AuthProvider({ children }) {
         setIsAuthenticated,
         Logout,
         categorys,
-        setCategorys
+        setCategorys,
       }}
     >
       {children}
