@@ -22,7 +22,11 @@ router.post("/", async (req, res) => {
   try {
     const { task, description, categoryId } = req.body;
 
-    const finalCategoryId = categoryId ? Number(categoryId) + 1 : null;
+    if (!task.trim()) {
+      return res.status(400).json({ message: "Task is required" });
+    }
+
+    const finalCategoryId = categoryId ? Number(categoryId) : null;
 
     const newTodo = await prisma.todos.create({
       data: {
@@ -81,32 +85,49 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.post("/categorys" , async (req,res) => {
-   try{
-      const {category}  = req.body
+router.get("/categorys", async (req, res) => {
+  try {
+    const categorys = await prisma.categorys.findMany({
+      where: {
+        userid: req.userID,
+      },
+    })
 
-      const alreadyExists = await prisma.categorys.findUnique({
-        where: {
-          nome: category
-        }
-      })
+    res.json(categorys)
+  } catch (err) {
+    console.error("GET /categorys failed:", err);
+    res.status(500).json({ message: "Error fetching categorys" });
+  }
+});
 
-      if(alreadyExists){
-        return res.status(404).json({message: "Category already exists"})
-      }
+router.post("/categorys", async (req, res) => {
+  try {
+    const { category } = req.body;
 
-      await prisma.categorys.create({
-        data: {
-          nome : category
-        }
-      })
+    const alreadyExists = await prisma.categorys.findFirst({
+      where: {
+        nome: category,
+        userid: req.userID
+      },
+    });
 
-      res.status(201).json({message: "Category created successfully"})
+    if (alreadyExists) {
+      return res.status(404).json({ message: "Category already exists" });
+    }
 
-   }catch (err){
-      console.error("POST /categorys failed :" ,err);
-      res.status(500).json({message: "Creating a category failed"})
-   }
-})
+    const newCategory = await prisma.categorys.create({
+
+      data: {
+        nome: category,
+        userid: req.userID
+      },
+    });
+
+    res.status(201).json(newCategory);
+  } catch (err) {
+    console.error("POST /categorys failed :", err);
+    res.status(500).json({ message: "Creating a category failed" });
+  }
+});
 
 export default router;

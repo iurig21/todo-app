@@ -2,11 +2,17 @@ import prisma from "../prismaClient.js";
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import validator from 'validator'
+import isEmail from "validator/lib/isEmail.js";
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
+
+  if(!validator.isEmail(email) || !password || password.length < 6 ){
+    return res.status(400).json({message: "Email and/or password is invalid"})
+  }
 
   const emailExists = await prisma.users.findUnique({
     where: {
@@ -59,13 +65,13 @@ router.post('/login', async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword) {
-      return res.status(401).send({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
