@@ -9,7 +9,7 @@ import Modal from "./components/Modal";
 import Authentication from "./components/Authentication";
 import { AuthContext } from "./Context/AuthContext";
 import AddCategory from "./components/AddCategory";
-import { LogOut } from 'lucide-react';
+import { LogOut, CircleUser,Pen } from "lucide-react";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -18,9 +18,10 @@ function App() {
   const [taskId, setTaskid] = useState();
   const [taskData, setTaskData] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [showCategorysModal,setShowCategorysModal] = useState(false)
+  const [showCategorysModal, setShowCategorysModal] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
-  const { token, isAuthenticated, Logout} = useContext(AuthContext);
+  const { token, isAuthenticated, Logout, email } = useContext(AuthContext);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -47,25 +48,27 @@ function App() {
     }
     fetchTasks();
   }, [token]);
-  async function OnAddTaskClick(title, desc,categoryId) {
-
+  async function OnAddTaskClick(title, desc, categoryId) {
     const data = await fetch(import.meta.env.VITE_API_URL + "/todos", {
       method: "POST",
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({task: title,description:desc,categoryId:categoryId})
-    })
+      body: JSON.stringify({
+        task: title,
+        description: desc,
+        categoryId: categoryId,
+      }),
+    });
 
-    if(!data.ok){
+    if (!data.ok) {
       throw new Error(`HTTP error! Status: ${data.status}`);
     }
 
-    const {newTodo} = await data.json()
+    const { newTodo } = await data.json();
 
-    const {id,task,description,categoryId: createdCategoryId} = newTodo
-
+    const { id, task, description, categoryId: createdCategoryId } = newTodo;
 
     const newTask = {
       id: id,
@@ -78,24 +81,28 @@ function App() {
     setTasks([...tasks, newTask]);
   }
 
- async function OnTaskClick(taskID) {
+  async function OnTaskClick(taskID) {
+    const { completed } = tasks.find((task) => task.id === taskID);
 
-    const {completed} = tasks.find((task) => task.id === taskID)
+    const updatedTodo = await fetch(
+      import.meta.env.VITE_API_URL + "/todos/" + taskID,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ completed: !completed }),
+      }
+    );
 
-    const updatedTodo = await fetch(import.meta.env.VITE_API_URL + "/todos/" + taskID ,{
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({completed: !completed})
-    })
-
-    if(!updatedTodo.ok){
-      throw new Error(`HTTP error! Status: ${updatedTodo.status}`)
+    if (!updatedTodo.ok) {
+      throw new Error(`HTTP error! Status: ${updatedTodo.status}`);
     }
 
-   const newTasks = tasks.map((task) => task.id === taskID ? {...task, completed: !task.completed} : task )
+    const newTasks = tasks.map((task) =>
+      task.id === taskID ? { ...task, completed: !task.completed } : task
+    );
     setTasks(newTasks);
   }
 
@@ -105,16 +112,18 @@ function App() {
   }
 
   async function HandleDeleteTask(taskID) {
-
-    const response = await fetch(import.meta.env.VITE_API_URL + "/todos/" + taskID , {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/todos/" + taskID,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    );
 
-    if(!response.ok){
-      throw new Error(`HTTP error! Status: ${response.status}`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const newTasks = tasks.filter((task) => taskID != task.id);
@@ -135,21 +144,22 @@ function App() {
     });
   }
 
-   async function SaveEdits(newTitle, newDesc) {
-
-    const response = await fetch(import.meta.env.VITE_API_URL + "/todos/" + taskData.id , {
+  async function SaveEdits(newTitle, newDesc) {
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/todos/" + taskData.id,
+      {
         method: "PUT",
         headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({newTask: newTitle, newDesc: newDesc})
-    })
+        body: JSON.stringify({ newTask: newTitle, newDesc: newDesc }),
+      }
+    );
 
-    if(!response.ok){
-      throw new Error(`HTTP request failed. Status code: ${response.status}`)
+    if (!response.ok) {
+      throw new Error(`HTTP request failed. Status code: ${response.status}`);
     }
-
 
     const newTasks = tasks.map((t) =>
       t.id === taskData.id ? { ...t, task: newTitle, description: newDesc } : t
@@ -167,8 +177,8 @@ function App() {
   };
 
   const openModal = () => {
-    setShowModal(true)
-  }
+    setShowModal(true);
+  };
 
   return (
     <div className="h-screen w-screen bg-zinc-800 flex justify-center p-6">
@@ -181,37 +191,60 @@ function App() {
 
         {showCategorysModal && (
           <Modal closeModal={() => setShowCategorysModal(false)}>
-              <AddCategory/>
+            <AddCategory />
           </Modal>
         )}
 
-        <div className="flex justify-between items-center relative">
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+        <div className="flex flex-col gap-4 items-center justify-center">
             <Title>Todo-app</Title>
-          </div>
-          {isAuthenticated ? (
-            <button
-              className="cursor-pointer bg-red-700 rounded-md p-3 text-white ml-auto border border-red-950"
-              onClick={() => {
-                setTasks([])
-                Logout()
-              }}
-            >
-              <div className="flex gap-3">
-                Logout
-                <LogOut/>
+            {isAuthenticated ? (
+              <div className="flex gap-2">
+                <button
+                  className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950"
+                  onClick={() => setShowButton(!showButton)}
+                >
+                  <div className="flex gap-3">
+                    <CircleUser />
+                    {email}
+                  </div>
+                </button>
+                {showButton && (
+                  <div>
+                    <button className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full">
+                      <div className="flex gap-3 justify-center">
+                        <Pen/>
+                        Change password
+                      </div>
+                    </button>
+                    <button
+                      className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full"
+                      onClick={() => {
+                        setTasks([]);
+                        Logout();
+                      }}
+                    >
+                      <div className="flex gap-3 justify-center">
+                        <LogOut />
+                        Logout
+                      </div>
+                    </button>
+                  </div>
+                )}
               </div>
-            </button>
-          ) : (
-            <button
-              onClick={() => setShowModal(true)}
-              className="cursor-pointer bg-green-700 rounded-md p-3 text-white ml-auto border border-green-950"
-            >
-              Login/register
-            </button>
-          )}
+            ) : (
+              <button
+                onClick={() => setShowModal(true)}
+                className="cursor-pointer bg-green-700 rounded-md p-3 text-white border border-green-950"
+              >
+                Login/register
+              </button>
+            )}
         </div>
-        <AddTask OnAddTaskClick={OnAddTaskClick} openModal={openModal} setShowCategorysModal={setShowCategorysModal}/>
+        <AddTask
+          OnAddTaskClick={OnAddTaskClick}
+          openModal={openModal}
+          setShowCategorysModal={setShowCategorysModal}
+        />
         {edit && (
           <EditTask
             taskData={taskData}

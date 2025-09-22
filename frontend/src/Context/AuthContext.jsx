@@ -10,6 +10,7 @@ function AuthProvider({ children }) {
     !!localStorage.getItem("token")
   );
   const [categorys, setCategorys] = useState([]);
+  const [email,setEmail] = useState(localStorage.getItem("email"))
 
   useEffect(() => {
     async function FetchCategorys() {
@@ -55,6 +56,9 @@ function AuthProvider({ children }) {
         throw new Error(errorData.message || "Login failed");
       }
 
+      localStorage.setItem("email",email);
+      setEmail(email)
+
       const data = await response.json();
       return data.token;
     } catch (err) {
@@ -78,6 +82,9 @@ function AuthProvider({ children }) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Registration failed");
       }
+
+      localStorage.setItem("email",email);
+      setEmail(email)
 
       const data = await response.json();
       return data.token;
@@ -108,6 +115,7 @@ function AuthProvider({ children }) {
         Logout,
         categorys,
         setCategorys,
+        email
       }}
     >
       {children}

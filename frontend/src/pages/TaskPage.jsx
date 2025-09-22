@@ -14,7 +14,7 @@ function TaskPage(){
 
       const {categorys} = useContext(AuthContext)
 
-      const category = categoryId !== "null" ? categorys.find((category) => category.id === Number(categoryId)) : "Non-existant"
+      const category = categoryId !== "null" ? categorys.find((category) => category.id === Number(categoryId)) : null
     
     return(
        <div className="h-screen w-screen bg-zinc-800 flex justify-center p-6">
@@ -26,7 +26,7 @@ function TaskPage(){
             <div className="bg-zinc-700 p-4 rounded-md space-y-2">
                 <h2 className="text-white text-xl font-bold"> {title}</h2>
                 <p className="text-white">{description}</p>
-                <p className="text-white"> <span className="font-bold"> Category: </span> {category.nome} </p>
+                <p className="text-white"> <span className="font-bold"> Category: </span> {category ? category.nome : "Non-Existant"} </p>
             </div>
         </div>
     </div>

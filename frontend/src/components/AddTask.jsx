@@ -73,7 +73,7 @@ function AddTask({ OnAddTaskClick, openModal,setShowCategorysModal }) {
         className="w-full bg-zinc-800 text-white p-3 rounded-md cursor-pointer font-medium"
         onClick={handleSubmit}
       >
-        Adicionar
+        Add
       </button>
     </div>
   );

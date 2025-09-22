@@ -42,10 +42,10 @@ function EditTask({taskData,SaveEdits,CloseEditTaskModal}) {
 
         <div className="flex w-full gap-2">
           <button className="w-full bg-red-600 text-white p-4 rounded-xl cursor-pointer font-semibold text-lg" onClick={HandleDiscardChanges}>
-            Descartar alterações
+            Discard changes
           </button>
           <button className="w-full bg-zinc-800 text-white p-4 rounded-xl cursor-pointer font-semibold text-lg" onClick={HandleEditSave}>
-            Salvar
+            Save
           </button>
         </div>
       </div>
