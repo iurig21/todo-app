@@ -9,7 +9,7 @@ function Tasks({ tasks, OnTaskClick, OnDeleteTaskClick, OnEditTaskClick }) {
   const navigate = useNavigate();
   const [SearchedTasks, setSearchedTasks] = useState([]);
 
-  const {isAuthenticated} = useContext(AuthContext)
+  const {isAuthenticated,categorys} = useContext(AuthContext)
 
   function OnSeeDetailsClick(task) {
     const query = new URLSearchParams();
@@ -34,6 +34,19 @@ function Tasks({ tasks, OnTaskClick, OnDeleteTaskClick, OnEditTaskClick }) {
 
   return (
     <ul className="list-none space-y-3 bg-zinc-700 p-4 rounded-md shadow-md">
+
+      <select className="p-2 text-white rounded-md bg-zinc-600" onChange={(event) => {
+        if(!event.target.value){
+          return setSearchedTasks(tasks)
+        }
+        setSearchedTasks(tasks.filter((task) => task.categoryId === Number(event.target.value)))
+      }}>
+        <option value=""> Filter by a category: </option>
+        {categorys.map((category) => (
+          <option value={category.id} key={category.id}> {category.nome}</option>
+        ))}
+      </select>
+
       <SearchBar OnSerchBarChange={OnSerchBarChange} />
       {SearchedTasks.length > 0 ? (
         SearchedTasks.map((task) => (

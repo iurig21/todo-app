@@ -9,7 +9,8 @@ import Modal from "./components/Modal";
 import Authentication from "./components/Authentication";
 import { AuthContext } from "./Context/AuthContext";
 import AddCategory from "./components/AddCategory";
-import { LogOut, CircleUser,Pen } from "lucide-react";
+import { LogOut, CircleUser, Pen } from "lucide-react";
+import ChangePassword from "./components/ChangePassword";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -20,9 +21,9 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [showCategorysModal, setShowCategorysModal] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
-  const { token, isAuthenticated, Logout, email } = useContext(AuthContext);
-
+  const { token, isAuthenticated, Logout, email,categorys,setCategorys } = useContext(AuthContext);
   useEffect(() => {
     async function fetchTasks() {
       try {
@@ -48,6 +49,7 @@ function App() {
     }
     fetchTasks();
   }, [token]);
+
   async function OnAddTaskClick(title, desc, categoryId) {
     const data = await fetch(import.meta.env.VITE_API_URL + "/todos", {
       method: "POST",
@@ -191,54 +193,63 @@ function App() {
 
         {showCategorysModal && (
           <Modal closeModal={() => setShowCategorysModal(false)}>
-            <AddCategory />
+            <AddCategory categorys={categorys} setCategorys={setCategorys}/>
+          </Modal>
+        )}
+
+        {showChangePasswordModal && (
+          <Modal closeModal={() => setShowChangePasswordModal(false)}>
+            <ChangePassword />
           </Modal>
         )}
 
         <div className="flex flex-col gap-4 items-center justify-center">
-            <Title>Todo-app</Title>
-            {isAuthenticated ? (
-              <div className="flex gap-2">
-                <button
-                  className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950"
-                  onClick={() => setShowButton(!showButton)}
-                >
-                  <div className="flex gap-3">
-                    <CircleUser />
-                    {email}
-                  </div>
-                </button>
-                {showButton && (
-                  <div>
-                    <button className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full">
-                      <div className="flex gap-3 justify-center">
-                        <Pen/>
-                        Change password
-                      </div>
-                    </button>
-                    <button
-                      className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full"
-                      onClick={() => {
-                        setTasks([]);
-                        Logout();
-                      }}
-                    >
-                      <div className="flex gap-3 justify-center">
-                        <LogOut />
-                        Logout
-                      </div>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
+          <Title>Todo-app</Title>
+          {isAuthenticated ? (
+            <div className="flex gap-2">
               <button
-                onClick={() => setShowModal(true)}
-                className="cursor-pointer bg-green-700 rounded-md p-3 text-white border border-green-950"
+                className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950"
+                onClick={() => setShowButton(!showButton)}
               >
-                Login/register
+                <div className="flex gap-3">
+                  <CircleUser />
+                  {email}
+                </div>
               </button>
-            )}
+              {showButton && (
+                <div>
+                  <button
+                    className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full"
+                    onClick={() => setShowChangePasswordModal(true)}
+                  >
+                    <div className="flex gap-3 justify-center">
+                      <Pen />
+                      Change password
+                    </div>
+                  </button>
+                  <button
+                    className="cursor-pointer bg-red-700 rounded-md p-3 text-white border border-red-950 w-full"
+                    onClick={() => {
+                      setTasks([]);
+                      Logout();
+                    }}
+                  >
+                    <div className="flex gap-3 justify-center">
+                      <LogOut />
+                      Logout
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowModal(true)}
+              className="cursor-pointer bg-green-700 rounded-md p-3 text-white border border-green-950"
+            >
+              Login/register
+            </button>
+          )}
         </div>
         <AddTask
           OnAddTaskClick={OnAddTaskClick}

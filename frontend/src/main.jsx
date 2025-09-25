@@ -11,7 +11,7 @@ ReactDOM.createRoot(root).render(
     <AuthProvider>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/task" element={<TaskPage />} />
+        <Route path="/task" element={<TaskPage/>} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>
