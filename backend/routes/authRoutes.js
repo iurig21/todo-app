@@ -85,4 +85,42 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.put('/password', async (req,res) => {
+
+  try{
+      const {email,currentPassword,newPassword} = req.body
+
+      const user = await prisma.users.findUnique({
+        where: {
+          email: email
+        }
+      })
+
+      const isPasswordValid = bcrypt.compareSync(currentPassword,user.password)
+
+      if(!isPasswordValid){
+        return res.status(401).json({message: "Current password is wrong"})
+      }
+
+      const hashedPassword = bcrypt.hashSync(newPassword,8)
+
+      await prisma.users.update({
+        where: {
+          email: email
+        },
+
+        data: {
+          password: hashedPassword
+        }
+      })
+
+      res.status(200).json({message: "Password changed succesfully"})
+
+  }catch(err){
+    console.error("PUT /auth/password failed",err)
+    res.status(500).json({message: "Changing password failed"})
+  }
+  
+})
+
 export default router
