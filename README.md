@@ -46,6 +46,7 @@ Here are the main endpoints available:
 
 - `POST /auth/register` — Register a new user and obtain a JWT
 - `POST /auth/login` — Authenticate and obtain a JWT
+- `PUT /auth/password` - Change a user's password
 - `GET /todos` — Get all todos for authenticated user
 - `POST /todos` — Create a new todo
 - `PUT /todos/:id` — Update a todo
